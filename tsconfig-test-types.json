@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "marked-extension-template": [
+      "marked-abc": [
         "lib/index.d.ts"
       ]
     }

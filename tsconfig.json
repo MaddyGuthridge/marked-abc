@@ -12,7 +12,8 @@
     "allowImportingTsExtensions": true,
     "esModuleInterop": true,
     "outDir": "lib",
-    "rootDir": "."
+    "rootDir": ".",
+    "skipLibCheck": true,
   },
   "include": [
     "src/*.ts",

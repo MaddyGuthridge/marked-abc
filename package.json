@@ -1,5 +1,5 @@
 {
-  "name": "marked-extension-template",
+  "name": "marked-abc",
   "version": "0.0.0",
   "description": "marked extension template",
   "main": "./lib/index.esm.js",
@@ -35,32 +35,25 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/markedjs/marked-extension-template.git"
+    "url": "git+https://github.com/MaddyGuthridge/marked-abc.git"
   },
-  "author": "Tony Brix <Tony@Brix.ninja> (https://Tony.Brix.ninja)",
+  "author": "Maddy Guthridge <hello@maddyguthridge.com> (https://maddyguthridge.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/markedjs/marked-extension-template/issues"
+    "url": "https://github.com/MaddyGuthridge/marked-abc/issues"
   },
-  "homepage": "https://github.com/markedjs/marked-extension-template#readme",
+  "homepage": "https://github.com/MaddyGuthridge/marked-abc#readme",
   "peerDependencies": {
     "marked": ">=17 <18"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
     "@markedjs/eslint-config": "^1.0.14",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/commit-analyzer": "^13.0.1",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^12.0.6",
-    "@semantic-release/npm": "^13.1.4",
-    "@semantic-release/release-notes-generator": "^14.1.0",
     "dts-bundle-generator": "^9.5.1",
     "esbuild": "^0.27.3",
     "esbuild-plugin-umd-wrapper": "^3.0.0",
     "eslint": "^10.0.2",
     "marked": "^17.0.3",
-    "semantic-release": "^25.0.3",
     "typescript": "^5.9.3"
   }
 }

@@ -1,46 +1,39 @@
-<!-- You may also delete any comments you don't need anymore. -->
+# Marked ABC
 
-# TODO:
+Render sheet music with [ABCjs](https://www.abcjs.net/) in Markdown documents
+using [Marked](https://marked.js.org/).
 
-- [ ] Replace all `marked-extension-template` with your extension npm name
-- [ ] Replace all `markedExtensionTemplate` with your extension global name
-- [ ] Update description in `/README.md`
-- [ ] Update usage in `/README.md`
-- [ ] Update options in `/README.md`
-- [ ] Write extension in `/src/index.ts`
-- [ ] Write tests in `/spec/index.test.js`
-- [ ] Write typescript tests in `/spec/index.test-types.ts`
-- [ ] Uncomment release in `/.github/workflows/main.yml`
-
-<!-- Delete this line and above -->
-
-# marked-extension-template
-<!-- Description -->
-
-# Usage
-<!-- Show most examples of how to use this extension -->
+## Usage
 
 ```js
 import {Marked} from "marked";
-import markedExtensionTemplate from "marked-extension-template";
-
-// or UMD script
-// <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
-// <script src="https://cdn.jsdelivr.net/npm/marked-extension-template/lib/index.umd.js"></script>
-// const Marked = marked.Marked;
+import markedAbc from "marked-abc";
 
 const marked = new Marked();
 
 const options = {
-	// default options
+    // default options
 };
 
-marked.use(markedExtensionTemplate(options));
+marked.use(markedAbc(options));
 
-marked.parse("example markdown");
-// <p>example html</p>
+marked.parse(`
+  <score lang="ABC">
+    X: 1
+    T: Epitome of an Enigma
+    C: Zarhym Raider
+    M: 2/2
+    L: 1/8
+    K: C#min
+    G2|g2 fe d2 c2 | B2 F2 G2 EF | G2 AB A2 G2 | F2 D2 E2 |]
+  </score>
+`);
+// Beautifully formatted sheet music as the output
 ```
 
-## `options`
+# TODO:
 
-<!-- If there are no options you can delete this section -->
+- [ ] Write extension in `/src/index.ts`
+- [ ] Write tests in `/spec/index.test.js`
+- [ ] Write typescript tests in `/spec/index.test-types.ts`
+- [ ] Uncomment release in `/.github/workflows/main.yml`
