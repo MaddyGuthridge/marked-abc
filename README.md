@@ -5,6 +5,8 @@ using [Marked](https://marked.js.org/).
 
 ## Usage
 
+This only renders in the browser.
+
 ```js
 import {Marked} from "marked";
 import markedAbc from "marked-abc";
