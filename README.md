@@ -13,11 +13,7 @@ import markedAbc from "marked-abc";
 
 const marked = new Marked();
 
-const options = {
-    // default options
-};
-
-marked.use(markedAbc(options));
+marked.use(markedAbc());
 
 marked.parse(`
   <score lang="ABC">
@@ -33,9 +29,12 @@ marked.parse(`
 // Beautifully formatted sheet music as the output
 ```
 
-# TODO:
+## Options
 
-- [ ] Write extension in `/src/index.ts`
-- [ ] Write tests in `/spec/index.test.js`
-- [ ] Write typescript tests in `/spec/index.test-types.ts`
-- [ ] Uncomment release in `/.github/workflows/main.yml`
+* `abcOptions`: [options for `abcjs.renderAbc`](https://docs.abcjs.net/visual/render-abc-options.html)
+* `sanitizer`: function to sanitize abcJS score. To minimize dependencies, this
+  library only performs basic escaping to HTML, meaning that maliciously-crafted
+  scores could perform an [XSS](https://en.wikipedia.org/wiki/Cross-site_scripting)
+  attack. If your scores are user-generated and can be shared, you should use a
+  library such as [`DOMPurify`](https://www.npmjs.com/package/dompurify) to
+  maximize the safety of the rendering.

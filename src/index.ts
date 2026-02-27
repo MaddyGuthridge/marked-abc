@@ -61,7 +61,14 @@ const SCORE_OPEN_BEGIN = new RegExp('^' + SCORE_OPEN.source);
 /** Match `</score>` */
 const SCORE_CLOSE = /<\/score>/;
 
-export default function(options: abcjs.AbcVisualParams = {}): MarkedExtension {
+export type MarkedAbcOptions = {
+  /** Options to pass to ABCjs */
+  abcOptions?: abcjs.AbcVisualParams,
+  /** Sanitizer function */
+  sanitizer?: (text: string) => string,
+};
+
+export default function(options: MarkedAbcOptions = {}): MarkedExtension {
   return {
     extensions: [{
       name: 'abcScore',
@@ -90,6 +97,7 @@ export default function(options: abcjs.AbcVisualParams = {}): MarkedExtension {
       renderer(token) {
         // Increment score counter for each score rendered to ensure ID uniqueness
         const eleId = `abc-score-${++scoreCounter}`;
+        const sanitize = options.sanitizer ?? escape;
 
         // Unreachable during tests due to missing DOM
         // JS moment: the coverage ignore comment is not included in its own ignore meaning I need
@@ -98,12 +106,12 @@ export default function(options: abcjs.AbcVisualParams = {}): MarkedExtension {
         /* node:coverage ignore next 6 */
         if ('document' in globalThis) {
           waitForElement(`#${eleId}`).then((ele: Element) => {
-            abcjs.renderAbc(ele, token.abc, options);
+            abcjs.renderAbc(ele, token.abc, options.abcOptions);
           });
         }
 
         return dedent`<div class="abc-score" id="${eleId}">
-        ${indent(escape(token.abc), '  ')}
+        ${indent(sanitize(token.abc), '  ')}
         </div>
         `;
       },
