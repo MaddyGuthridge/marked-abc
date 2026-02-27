@@ -1,6 +1,6 @@
 // node:coverage ignore next
 import { type MarkedExtension } from 'marked';
-import { renderAbc, type AbcVisualParams } from 'abcjs';
+import * as abcjs from 'abcjs';
 import dedent from 'dedent';
 
 let scoreCounter = 0;
@@ -10,7 +10,7 @@ let scoreCounter = 0;
 // Retrieved 2026-02-27, License - CC BY-SA 3.0
 /** Escape string for embedding in HTML */
 function escape(r: string) {
-  return r.replace(/[\x26\x0A\<>'"]/g, r => "&#" + r.charCodeAt(0) + ";");
+  return r.replace(/[\x26\x0A\<>'"]/g, r => '&#' + r.charCodeAt(0) + ';');
 }
 
 // Source - https://stackoverflow.com/a/61511955/6335363
@@ -30,17 +30,17 @@ function waitForElement(selector: string): Promise<Element> {
 
     const observer = new MutationObserver(mutations => {
       const match = document.querySelector(selector);
-        if (match) {
-          observer.disconnect();
-          resolve(match);
-        }
+      if (match) {
+        observer.disconnect();
+        resolve(match);
+      }
     });
 
     // If you get "parameter 1 is not of type 'Node'" error, see
     // https://stackoverflow.com/a/77855838/492336
     observer.observe(document.body, {
       childList: true,
-      subtree: true
+      subtree: true,
     });
   });
 }
@@ -54,20 +54,20 @@ function indent(s: string, indent: string) {
 const SCORE_OPEN = /<score\s+lang="(ABC|abc)"\s*>/;
 
 /** Match `<score lang="ABC">`, only at beginning of string */
-const SCORE_OPEN_BEGIN = new RegExp("^" + SCORE_OPEN.source);
+const SCORE_OPEN_BEGIN = new RegExp('^' + SCORE_OPEN.source);
 
 /** Match `</score>` */
 const SCORE_CLOSE = /<\/score>/;
 
-export default function (options: AbcVisualParams = {}): MarkedExtension {
+export default function(options: abcjs.AbcVisualParams = {}): MarkedExtension {
   return {
     extensions: [{
       name: 'abcScore',
       level: 'block',
-      start(src) { return SCORE_OPEN.exec(src)?.index },
+      start(src) { return SCORE_OPEN.exec(src)?.index; },
       tokenizer(src) {
         const endMatch = SCORE_CLOSE.exec(src);
-        if (!endMatch) {
+        if (endMatch === null) {
           throw Error('Unterminated <score lang="ABC"> block');
         }
         const end = endMatch.index + endMatch[0].length;
@@ -83,17 +83,17 @@ export default function (options: AbcVisualParams = {}): MarkedExtension {
         // Increment score counter for each score rendered to ensure ID uniqueness
         const eleId = `abc-score-${++scoreCounter}`;
 
-        if (document) {
-          void waitForElement(`#${eleId}`).then((ele: Element) => {
-            renderAbc(ele, token.abc, options);
+        if ('document' in globalThis) {
+          waitForElement(`#${eleId}`).then((ele: Element) => {
+            abcjs.renderAbc(ele, token.abc, options);
           });
         }
 
         return dedent`<div class="abc-score" id="${eleId}">
         ${indent(escape(token.abc), '  ')}
         </div>
-        `
-      }
+        `;
+      },
     }],
   };
 }
