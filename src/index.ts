@@ -109,7 +109,7 @@ export default function(options: MarkedAbcOptions = {}): MarkedExtension {
         // JS moment: the coverage ignore comment is not included in its own ignore meaning I need
         // to place it before this if statement, meaning the coverage of the if statement itself is
         // not measured.
-        /* node:coverage ignore next 6 */
+        /* node:coverage disable */
         if ('document' in globalThis) {
           waitForElement(`#${eleId}`).then((ele: Element) => {
             abcjs.renderAbc(
@@ -119,6 +119,7 @@ export default function(options: MarkedAbcOptions = {}): MarkedExtension {
             );
           });
         }
+        /* node:coverage enable */
 
         return dedent`<div class="abc-score" id="${eleId}">
         ${indent(sanitize(token.abc), '  ')}
