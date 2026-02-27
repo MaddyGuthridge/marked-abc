@@ -68,6 +68,12 @@ export type MarkedAbcOptions = {
   sanitizer?: (text: string) => string,
 };
 
+type AbcToken = {
+  type: 'abcScore',
+  raw: string,
+  abc: string,
+};
+
 export default function(options: MarkedAbcOptions = {}): MarkedExtension {
   return {
     extensions: [{
@@ -83,7 +89,7 @@ export default function(options: MarkedAbcOptions = {}): MarkedExtension {
         }
         const endMatch = SCORE_CLOSE.exec(src);
         if (endMatch === null) {
-          throw Error('Unterminated <score lang="ABC"> block');
+          return undefined;
         }
         const end = endMatch.index + endMatch[0].length;
         const raw = src.slice(0, end);
@@ -92,7 +98,7 @@ export default function(options: MarkedAbcOptions = {}): MarkedExtension {
           type: 'abcScore',
           raw,
           abc,
-        };
+        } satisfies AbcToken;
       },
       renderer(token) {
         // Increment score counter for each score rendered to ensure ID uniqueness
@@ -106,7 +112,11 @@ export default function(options: MarkedAbcOptions = {}): MarkedExtension {
         /* node:coverage ignore next 6 */
         if ('document' in globalThis) {
           waitForElement(`#${eleId}`).then((ele: Element) => {
-            abcjs.renderAbc(ele, token.abc, options.abcOptions);
+            abcjs.renderAbc(
+              ele,
+              (token as AbcToken).abc.split('\n').map((line: string) => line.trim()).join(),
+              options.abcOptions,
+            );
           });
         }
 

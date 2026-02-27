@@ -26,10 +26,9 @@ describe('marked-abc', () => {
   test('unterminated score block', (t) => {
     const marked = new Marked();
     marked.use(markedAbc());
-
-    t.assert.throws(() => {
-      marked.parse(EXAMPLE_SCORE.replace('</score>', ''));
-    }, 'Unterminated score block');
+    // No action is block is unterminated
+    const unterminated = EXAMPLE_SCORE.replace('</score>', '');
+    t.assert.equal(marked.parse(unterminated), unterminated);
   });
 
   test('Other markdown renders normally', (t) => {
