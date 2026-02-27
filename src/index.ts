@@ -115,7 +115,7 @@ export default function(options: MarkedAbcOptions = {}): MarkedExtension {
             abcjs.renderAbc(
               ele,
               // Trim all leading whitespace or ABCjs freaks out and fails to render it all
-              (token as AbcToken).abc.split('\n').map((line: string) => line.trim()).join(),
+              (token as AbcToken).abc.split('\n').map((line: string) => line.trim()).join('\n'),
               options.abcOptions,
             );
           });
