@@ -114,6 +114,7 @@ export default function(options: MarkedAbcOptions = {}): MarkedExtension {
           waitForElement(`#${eleId}`).then((ele: Element) => {
             abcjs.renderAbc(
               ele,
+              // Trim all leading whitespace or ABCjs freaks out and fails to render it all
               (token as AbcToken).abc.split('\n').map((line: string) => line.trim()).join(),
               options.abcOptions,
             );
