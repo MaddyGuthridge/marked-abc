@@ -93,7 +93,14 @@ export default function(options: MarkedAbcOptions = {}): MarkedExtension {
         }
         const end = endMatch.index + endMatch[0].length;
         const raw = src.slice(0, end);
-        const abc = raw.replace(SCORE_OPEN_BEGIN, '').replace(SCORE_CLOSE, '');
+        const abc = raw
+          .replace(SCORE_OPEN_BEGIN, '')
+          .replace(SCORE_CLOSE, '')
+          .trim()
+          .split('\n')
+          .map((line) => line.trim())
+          .join('\n');
+        console.log(abc);
         return {
           type: 'abcScore',
           raw,
@@ -115,7 +122,7 @@ export default function(options: MarkedAbcOptions = {}): MarkedExtension {
             abcjs.renderAbc(
               ele,
               // Trim all leading whitespace or ABCjs freaks out and fails to render it all
-              (token as AbcToken).abc.split('\n').map((line: string) => line.trim()).join('\n'),
+              (token as AbcToken).abc,
               options.abcOptions,
             );
           });
