@@ -17,7 +17,6 @@ jobs:
           registry-url: "https://registry.npmjs.com"
       - name: Update NPM
         run: npm i -g npm@^11.5.1
-      - run: npm i 
       - run: npm ci
       - run: npm run build
       - run: npm publish
