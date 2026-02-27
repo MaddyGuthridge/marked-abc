@@ -18,10 +18,25 @@ describe('marked-abc', () => {
   test('no options', (t) => {
     const marked = new Marked();
     marked.use(markedAbc());
-
     const result = marked.parse(EXAMPLE_SCORE);
-
     t.assert.match(result, /<div class="abc-score" id="abc-score-\d+">/);
+    t.assert.match(result, /<\/div>/);
+  });
+
+  test('unterminated score block', (t) => {
+    const marked = new Marked();
+    marked.use(markedAbc());
+
+    t.assert.throws(() => {
+      marked.parse(EXAMPLE_SCORE.replace('</score>', ''));
+    }, 'Unterminated score block');
+  });
+
+  test('Other markdown renders normally', (t) => {
+    const marked = new Marked();
+    marked.use(markedAbc());
+    const result = marked.parse('# Heading');
+    t.assert.equal(result, '<h1>Heading</h1>\n');
   });
 
   test('markdown not using this extension', (t) => {

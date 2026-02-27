@@ -1,4 +1,3 @@
-// node:coverage ignore next
 import { type MarkedExtension } from 'marked';
 import * as abcjs from 'abcjs';
 import dedent from 'dedent';
@@ -13,6 +12,8 @@ function escape(r: string) {
   return r.replace(/[\x26\x0A\<>'"]/g, r => '&#' + r.charCodeAt(0) + ';');
 }
 
+// Requires browser to test
+/* node:coverage disable */
 // Source - https://stackoverflow.com/a/61511955/6335363
 // Posted by Yong Wang, modified by community. See post 'Timeline' for change history
 // Retrieved 2026-02-27, License - CC BY-SA 4.0
@@ -44,6 +45,7 @@ function waitForElement(selector: string): Promise<Element> {
     });
   });
 }
+/* node:coverage enable */
 
 /** Indent the given string with the given string for each line */
 function indent(s: string, indent: string) {
@@ -64,8 +66,14 @@ export default function(options: abcjs.AbcVisualParams = {}): MarkedExtension {
     extensions: [{
       name: 'abcScore',
       level: 'block',
+      // Marked never calls this and I do not know why
+      /* node:coverage disable */
       start(src) { return SCORE_OPEN.exec(src)?.index; },
+      /* node:coverage enable */
       tokenizer(src) {
+        if (!SCORE_OPEN_BEGIN.exec(src)) {
+          return undefined;
+        }
         const endMatch = SCORE_CLOSE.exec(src);
         if (endMatch === null) {
           throw Error('Unterminated <score lang="ABC"> block');
@@ -83,6 +91,11 @@ export default function(options: abcjs.AbcVisualParams = {}): MarkedExtension {
         // Increment score counter for each score rendered to ensure ID uniqueness
         const eleId = `abc-score-${++scoreCounter}`;
 
+        // Unreachable during tests due to missing DOM
+        // JS moment: the coverage ignore comment is not included in its own ignore meaning I need
+        // to place it before this if statement, meaning the coverage of the if statement itself is
+        // not measured.
+        /* node:coverage ignore next 6 */
         if ('document' in globalThis) {
           waitForElement(`#${eleId}`).then((ele: Element) => {
             abcjs.renderAbc(ele, token.abc, options);
