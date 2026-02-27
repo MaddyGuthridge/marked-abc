@@ -1,7 +1,7 @@
 {
   "name": "marked-abc",
   "version": "0.1.0",
-  "description": "marked extension template",
+  "description": "Render sheet music with ABCjs in Markdown documents using Marked.",
   "main": "./lib/index.esm.js",
   "module": "./lib/index.esm.js",
   "browser": "./lib/index.umd.js",

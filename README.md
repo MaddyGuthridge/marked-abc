@@ -5,7 +5,8 @@ using [Marked](https://marked.js.org/).
 
 ## Usage
 
-This only renders in the browser.
+This only renders in the browser, as ABCjs cannot operate without access to the
+DOM.
 
 ```js
 import {Marked} from "marked";
