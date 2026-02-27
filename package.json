@@ -1,6 +1,6 @@
 {
   "name": "marked-abc",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Render sheet music with ABCjs in Markdown documents using Marked.",
   "main": "./lib/index.esm.js",
   "module": "./lib/index.esm.js",
@@ -20,9 +20,6 @@
       "types": "./lib/index.d.ts",
       "default": "./lib/index.esm.js"
     }
-  },
-  "engines": {
-    "npm": ">=11.5.1"
   },
   "scripts": {
     "build": "npm run build:esbuild && npm run build:types",
