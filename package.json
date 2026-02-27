@@ -21,6 +21,9 @@
       "default": "./lib/index.esm.js"
     }
   },
+  "engines": {
+    "npm": ">=11.5.1"
+  },
   "scripts": {
     "build": "npm run build:esbuild && npm run build:types",
     "build:esbuild": "node esbuild.config.js",
@@ -60,5 +63,9 @@
   "dependencies": {
     "abcjs": "^6.6.2",
     "dedent": "^1.7.1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }
