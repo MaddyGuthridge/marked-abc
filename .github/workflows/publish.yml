@@ -11,9 +11,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: publish
     permissions:
       contents: read
       id-token: write
+      packages: write
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -22,8 +24,8 @@ jobs:
           registry-url: "https://registry.npmjs.com"
       - name: Update NPM
         run: |
-            npm i -g npm@^11.5.1
-            npm --version
+          npm i -g npm@latest
+          npm --version
       - run: npm ci
       - run: npm run build
       - run: npm publish --provenance
