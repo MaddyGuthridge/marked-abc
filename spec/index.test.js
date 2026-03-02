@@ -17,7 +17,7 @@ const EXAMPLE_SCORE = `
 describe('marked-abc', () => {
   test('no options', (t) => {
     const marked = new Marked();
-    marked.use(markedAbc());
+    marked.use(markedAbc().extension);
     const result = marked.parse(EXAMPLE_SCORE);
     t.assert.match(result, /<div class="abc-score" id="abc-score-\d+">/);
     t.assert.match(result, /<\/div>/);
@@ -25,7 +25,7 @@ describe('marked-abc', () => {
 
   test('unterminated score block', (t) => {
     const marked = new Marked();
-    marked.use(markedAbc());
+    marked.use(markedAbc().extension);
     // No action is block is unterminated
     const unterminated = EXAMPLE_SCORE.replace('</score>', '');
     t.assert.equal(marked.parse(unterminated), unterminated);
@@ -33,7 +33,7 @@ describe('marked-abc', () => {
 
   test('Other markdown renders normally', (t) => {
     const marked = new Marked();
-    marked.use(markedAbc());
+    marked.use(markedAbc().extension);
     const result = marked.parse('# Heading');
     t.assert.equal(result, '<h1>Heading</h1>\n');
   });

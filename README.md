@@ -14,7 +14,7 @@ import markedAbc from "marked-abc";
 
 const marked = new Marked();
 
-marked.use(markedAbc());
+marked.use(markedAbc().extension);
 
 marked.parse(`
   <score lang="ABC">
@@ -28,6 +28,20 @@ marked.parse(`
   </score>
 `);
 // Beautifully formatted sheet music as the output
+```
+
+## Usage with server-side rendering
+
+When this extension is used in a server-side context, it will fall back to
+rendering plaintext. When the Markdown element is mounted, you can convert these
+elements to rendered notation by using the returned `forceRenderAll` function.
+
+```js
+const abc = markedAbc();
+
+marked.use(abc.extension);
+
+onMount(() => abc.forceRenderAll());
 ```
 
 ## Options

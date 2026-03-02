@@ -74,8 +74,30 @@ type AbcToken = {
   abc: string,
 };
 
-export default function(options: MarkedAbcOptions = {}): MarkedExtension {
-  return {
+export default function(
+  options: MarkedAbcOptions = {},
+): { extension: MarkedExtension, forceRenderAll: () => void } {
+  const abcElements: { id: string, score: string }[] = [];
+
+  // Can only be run in browser.
+  /* node:coverage disable */
+  /**
+   * Re-render all known abc scores.
+   *
+   * While this should be done automatically in most cases, it may be need to be called on element
+   * mount if the markdown was originally rendered server-side (where ABCjs will not run).
+   */
+  function forceRenderAll() {
+    for (const abc of abcElements) {
+      const match = document.querySelector(`#${abc.id}`);
+      if (match) {
+        abcjs.renderAbc(match, abc.score, options.abcOptions);
+      }
+    }
+  }
+  /* node:coverage enable */
+
+  const extension: MarkedExtension = {
     extensions: [{
       name: 'abcScore',
       level: 'block',
@@ -93,6 +115,7 @@ export default function(options: MarkedAbcOptions = {}): MarkedExtension {
         }
         const end = endMatch.index + endMatch[0].length;
         const raw = src.slice(0, end);
+        // Trim all leading whitespace or ABCjs freaks out and fails to render it all
         const abc = raw
           .replace(SCORE_OPEN_BEGIN, '')
           .replace(SCORE_CLOSE, '')
@@ -112,6 +135,8 @@ export default function(options: MarkedAbcOptions = {}): MarkedExtension {
         const eleId = `abc-score-${++scoreCounter}`;
         const sanitize = options.sanitizer ?? escape;
 
+        abcElements.push({ id: eleId, score: (token as AbcToken).abc });
+
         // Unreachable during tests due to missing DOM
         // JS moment: the coverage ignore comment is not included in its own ignore meaning I need
         // to place it before this if statement, meaning the coverage of the if statement itself is
@@ -121,7 +146,6 @@ export default function(options: MarkedAbcOptions = {}): MarkedExtension {
           waitForElement(`#${eleId}`).then((ele: Element) => {
             abcjs.renderAbc(
               ele,
-              // Trim all leading whitespace or ABCjs freaks out and fails to render it all
               (token as AbcToken).abc,
               options.abcOptions,
             );
@@ -135,5 +159,10 @@ export default function(options: MarkedAbcOptions = {}): MarkedExtension {
         `;
       },
     }],
+  };
+
+  return {
+    extension,
+    forceRenderAll,
   };
 }
