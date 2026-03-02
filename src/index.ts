@@ -77,8 +77,6 @@ type AbcToken = {
 export default function(
   options: MarkedAbcOptions = {},
 ): { extension: MarkedExtension, forceRenderAll: () => void } {
-  const abcElements: { id: string, score: string }[] = [];
-
   // Can only be run in browser.
   /* node:coverage disable */
   /**
@@ -88,11 +86,8 @@ export default function(
    * mount if the markdown was originally rendered server-side (where ABCjs will not run).
    */
   function forceRenderAll() {
-    for (const abc of abcElements) {
-      const match = document.querySelector(`#${abc.id}`);
-      if (match) {
-        abcjs.renderAbc(match, abc.score, options.abcOptions);
-      }
+    for (const match of document.querySelectorAll('.abc-score')) {
+      abcjs.renderAbc(match, match.textContent, options.abcOptions);
     }
   }
   /* node:coverage enable */
@@ -123,7 +118,7 @@ export default function(
           .split('\n')
           .map((line) => line.trim())
           .join('\n');
-        console.log(abc);
+
         return {
           type: 'abcScore',
           raw,
@@ -134,8 +129,6 @@ export default function(
         // Increment score counter for each score rendered to ensure ID uniqueness
         const eleId = `abc-score-${++scoreCounter}`;
         const sanitize = options.sanitizer ?? escape;
-
-        abcElements.push({ id: eleId, score: (token as AbcToken).abc });
 
         // Unreachable during tests due to missing DOM
         // JS moment: the coverage ignore comment is not included in its own ignore meaning I need
