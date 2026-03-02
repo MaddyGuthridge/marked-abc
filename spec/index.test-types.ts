@@ -7,7 +7,7 @@ const options = {
   // default options
 };
 
-marked.use(markedAbc(options));
+marked.use(markedAbc(options).extension);
 
 const html: string = marked.parse('example markdown', { async: false });
 console.log(html);
