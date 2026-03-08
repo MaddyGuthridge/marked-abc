@@ -59,6 +59,6 @@
   },
   "dependencies": {
     "abcjs": "^6.6.2",
-    "dedent": "^1.7.1"
+    "dedent": "^1.7.2"
   }
 }
