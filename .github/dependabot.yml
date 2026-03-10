@@ -9,3 +9,36 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      marked:
+        applies-to: version-updates
+        patterns:
+          - "marked"
+          - "marked-*"
+          - "@maddyguthridge/marked-mermaid"
+      eslint:
+        applies-to: version-updates
+        patterns:
+          - "eslint"
+          - "eslint-plugin-*"
+          - "@types/eslint"
+          - "@eslint/*"
+          - "typescript-eslint"
+          - "@stylistic/eslint-plugin"
+          - "@tanstack/eslint-plugin-query"
+          - "globals"
+      typescript:
+        applies-to: version-updates
+        patterns:
+          - "typescript"
+          - "tslib"
+      vitest:
+        applies-to: version-updates
+        patterns:
+          - "vitest"
+          - "@vitest/coverage-v8"
+    ignore:
+      # No major @types/node updates, since they should follow the project's
+      # target node version.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
