@@ -55,7 +55,7 @@
     "esbuild-plugin-umd-wrapper": "^3.0.0",
     "eslint": "^10.1.0",
     "marked": "^17.0.5",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.2"
   },
   "dependencies": {
     "abcjs": "^6.6.2",
