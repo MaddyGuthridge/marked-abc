@@ -12,7 +12,7 @@ jobs:
   Test:
     strategy:
       matrix:
-        marked-version: ["marked@16", "marked@17"]
+        marked-version: ["marked@17", "marked@18"]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code

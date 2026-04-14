@@ -44,7 +44,7 @@
   },
   "homepage": "https://github.com/MaddyGuthridge/marked-abc#readme",
   "peerDependencies": {
-    "marked": ">=17 <18"
+    "marked": ">=17 <19"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
@@ -54,7 +54,7 @@
     "esbuild": "^0.28.0",
     "esbuild-plugin-umd-wrapper": "^3.0.0",
     "eslint": "^10.2.0",
-    "marked": "^17.0.5",
+    "marked": "^18.0.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
