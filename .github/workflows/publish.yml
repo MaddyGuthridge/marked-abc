@@ -21,6 +21,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version-file: ".nvmrc"
+          cache: "npm"
       - name: Update NPM
         run: |
           npm i -g npm@latest
