@@ -58,7 +58,7 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
-    "abcjs": "^6.6.2",
+    "abcjs": "^6.6.3",
     "dedent": "^1.7.2"
   }
 }
