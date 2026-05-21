@@ -6,6 +6,8 @@ updates:
       interval: "monthly"
     cooldown:
       default-days: 7
+      exclude:
+        - marked
     groups:
       marked:
         applies-to: version-updates
