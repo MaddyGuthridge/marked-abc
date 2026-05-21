@@ -1,14 +1,11 @@
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "weekly"
   - package-ecosystem: "npm"
-    versioning-strategy: "increase"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
+    cooldown:
+      default-days: 7
     groups:
       marked:
         applies-to: version-updates
@@ -42,3 +39,9 @@ updates:
       # target node version.
       - dependency-name: "@types/node"
         update-types: ["version-update:semver-major"]
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 7
