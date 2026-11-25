@@ -1,0 +1,32 @@
+{
+  "name": "marked-mermaid-demo",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "test:visual": "playwright test",
+    "test:visual:update": "playwright test -u"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.0",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@tsconfig/svelte": "^5.0.8",
+    "@types/node": "^24.19.2",
+    "@vitest/browser-playwright": "^5.1.0",
+    "@vitest/coverage-v8": "latest",
+    "playwright": "1.64.0",
+    "svelte": "^5.57.2",
+    "svelte-check": "^4.7.7",
+    "typescript": "~6.0.3",
+    "vite": "^8.3.5",
+    "vitest": "latest"
+  },
+  "dependencies": {
+    "marked-abc": "workspace:*",
+    "marked": "^18.2.0"
+  }
+}

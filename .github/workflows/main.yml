@@ -12,79 +12,89 @@ jobs:
   Test:
     strategy:
       matrix:
-        marked-version: ["marked@17", "marked@18"]
+        marked-version: ["marked@16", "marked@17", "marked@18"]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v7.0.1
-      - name: Install Node
-        uses: actions/setup-node@v7
+      - run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+        id: nvm
+      - uses: pnpm/setup@v3
         with:
-          node-version-file: '.nvmrc'
-          cache: "npm"
+          version: 12
+          runtime: node@${{ steps.nvm.outputs.NODE_VERSION }}
+          cache: true
       - name: Install Dependencies
-        run: npm ci
+        run: pnpm ci
       - name: Test with marked version
-        run: npm i -D ${{ matrix.marked-version }}
+        run: pnpm i -D -w ${{ matrix.marked-version }}
       - name: Run Tests 👩🏽‍💻
-        run: npm run test
+        run: pnpm test
 
   Types:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v7.0.1
-      - name: Install Node
-        uses: actions/setup-node@v7
+      - run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+        id: nvm
+      - uses: pnpm/setup@v3
         with:
-          node-version-file: '.nvmrc'
-          cache: "npm"
+          version: 12
+          runtime: node@${{ steps.nvm.outputs.NODE_VERSION }}
+          cache: true
       - name: Install Dependencies
-        run: npm ci
+        run: pnpm ci
       - name: Run Tests 👩🏽‍💻
-        run: npm run test:types
+        run: pnpm run test:types
 
   Coverage:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v7.0.1
-      - name: Install Node
-        uses: actions/setup-node@v7
+      - run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+        id: nvm
+      - uses: pnpm/setup@v3
         with:
-          node-version-file: '.nvmrc'
-          cache: "npm"
+          version: 12
+          runtime: node@${{ steps.nvm.outputs.NODE_VERSION }}
+          cache: true
       - name: Install Dependencies
-        run: npm ci
+        run: pnpm ci
       - name: Run Tests 👩🏽‍💻
-        run: npm run test:cover
+        run: pnpm test:cover
 
   Lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v7.0.1
-      - name: Install Node
-        uses: actions/setup-node@v7
+      - run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+        id: nvm
+      - uses: pnpm/setup@v3
         with:
-          node-version-file: '.nvmrc'
-          cache: "npm"
+          version: 12
+          runtime: node@${{ steps.nvm.outputs.NODE_VERSION }}
+          cache: true
       - name: Install Dependencies
-        run: npm ci
+        run: pnpm ci
       - name: Lint ✨
-        run: npm run lint
+        run: pnpm lint
 
   Build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v7.0.1
-      - name: Install Node
-        uses: actions/setup-node@v7
+      - run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+        id: nvm
+      - uses: pnpm/setup@v3
         with:
-          node-version-file: '.nvmrc'
-          cache: "npm"
+          version: 12
+          runtime: node@${{ steps.nvm.outputs.NODE_VERSION }}
+          cache: true
       - name: Install Dependencies
-        run: npm ci
+        run: pnpm ci
       - name: Build 🗜️
-        run: npm run build
+        run: pnpm run build

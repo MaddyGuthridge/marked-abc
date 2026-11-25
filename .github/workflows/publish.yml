@@ -1,31 +1,27 @@
-# https://docs.npmjs.com/trusted-publishers
+# https://docs.github.com/en/actions/use-cases-and-examples/publishing-packages/publishing-nodejs-packages
 name: Publish Package to NPM
-
-permissions:
-  id-token: write # Required for OIDC
-  contents: read
-
 on:
   release:
     types: [published]
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: publish
+    environment:
+      name: publish
     permissions:
       contents: read
       id-token: write
       packages: write
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: actions/setup-node@v7
+      - run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+        id: nvm
+      - uses: pnpm/setup@v3
         with:
-          node-version-file: ".nvmrc"
-          cache: "npm"
-      - name: Update NPM
-        run: |
-          npm i -g npm@latest
-          npm --version
-      - run: npm ci
-      - run: npm run build
-      - run: npm publish --provenance
+          version: 12
+          runtime: node@${{ steps.nvm.outputs.NODE_VERSION }}
+          cache: true
+      - name: Install Dependencies
+        run: pnpm ci
+      - run: pnpm run build
+      - run: pnpm publish --provenance --access public
