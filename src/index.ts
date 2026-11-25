@@ -61,6 +61,9 @@ const SCORE_OPEN_BEGIN = new RegExp('^' + SCORE_OPEN.source);
 /** Match `</score>` */
 const SCORE_CLOSE = /<\/score>/;
 
+/** Classname added to abc blocks after rendering success */
+const RENDERED_CLASSNAME = 'marked-abc-rendered';
+
 export type MarkedAbcOptions = {
   /** Options to pass to ABCjs */
   abcOptions?: abcjs.AbcVisualParams,
@@ -87,7 +90,10 @@ export default function(
    */
   function forceRenderAll() {
     for (const match of document.querySelectorAll('.abc-score')) {
-      abcjs.renderAbc(match, match.textContent, options.abcOptions);
+      if (!match.classList.contains(RENDERED_CLASSNAME)) {
+        abcjs.renderAbc(match, match.textContent, options.abcOptions);
+        match.classList.add(RENDERED_CLASSNAME);
+      }
     }
   }
   /* node:coverage enable */
@@ -142,6 +148,7 @@ export default function(
               (token as AbcToken).abc,
               options.abcOptions,
             );
+            ele.classList.add(RENDERED_CLASSNAME);
           });
         }
         /* node:coverage enable */
